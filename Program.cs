@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using Shop.Data;
+using Shop.Repositories;
+using Shop.Services;
 
 namespace Shop
 {
@@ -20,6 +22,9 @@ namespace Shop
 
             builder.Services.AddDbContext<ShopDbContext>(options =>
                 options.UseNpgsql(connectionString));
+
+            builder.Services.AddScoped<IClientRepository, ClientRepository>();
+            builder.Services.AddScoped<IClientService, ClientService>();
 
 
             var app = builder.Build();
