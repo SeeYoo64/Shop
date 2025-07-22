@@ -33,5 +33,23 @@ public class ClientsController : Controller
         return Ok(result);
     }
 
+    [HttpGet("clients/{clientId}/categories")]
+    public async Task<IActionResult> GetClientCategories(int clientId)
+    {
+        try
+        {
+            var result = await _clientService.GetCategoriesByClientIdAsync(clientId);
+            if (result == null || result.Count == 0)
+                return NotFound("Клієнт не має куплених категорій.");
+
+            return Ok(result);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+
 }
 

@@ -7,6 +7,6 @@ namespace Shop.Services
         Task<List<BirthdayClientDto>> GetBirthdayClientsAsync(DateTime date);
         Task<List<RecentBuyerDto>> GetRecentBuyersAsync(int days);
 
-
+        Task<List<CategoryStatsDto>> GetCategoriesByClientIdAsync(int clientId);
     }
 }

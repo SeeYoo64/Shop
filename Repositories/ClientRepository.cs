@@ -49,5 +49,17 @@ namespace Shop.Repositories
             return recentBuyers;
         }
 
+        public async Task<List<CategoryStatsDto>> GetClientProductCategoriesAsync(int clientId)
+        {
+            return await _context.PurchaseItems
+                .Where(pi => pi.Purchase.ClientId == clientId)
+                .GroupBy(pi => pi.Product.Category)
+                .Select(g => new CategoryStatsDto
+                {
+                    Category = g.Key,
+                    Quantity = g.Sum(x => x.Quantity)
+                })
+                .ToListAsync();
+        }
     }
 }

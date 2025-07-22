@@ -33,7 +33,10 @@ namespace Shop.Services
             return await _repository.GetRecentBuyersAsync(days);
         }
 
-
+        public async Task<List<CategoryStatsDto>> GetCategoriesByClientIdAsync(int clientId)
+        {
+            return await _repository.GetClientProductCategoriesAsync(clientId);
+        }
 
     }
 }
