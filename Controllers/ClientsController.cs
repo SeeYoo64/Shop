@@ -26,5 +26,12 @@ public class ClientsController : Controller
         return Ok(result);
     }
 
+    [HttpGet("recent-buyers")]
+    public async Task<IActionResult> GetRecentBuyers([FromQuery] int days)
+    {
+        var result = await _clientService.GetRecentBuyersAsync(days);
+        return Ok(result);
+    }
+
 }
 

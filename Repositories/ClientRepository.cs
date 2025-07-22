@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Shop.Data;
+using Shop.Dtos.Clients;
 using Shop.Models;
 
 namespace Shop.Repositories
@@ -27,5 +28,26 @@ namespace Shop.Repositories
 
             return clients;
         }
+
+
+        public async Task<List<RecentBuyerDto>> GetRecentBuyersAsync(int days)
+        {
+            var thresholdDate = DateTime.UtcNow.Date.AddDays(-days);
+
+            var recentBuyers = await _context.Purchases
+                .Where(p => p.Date >= thresholdDate)
+                .GroupBy(p => new { p.ClientId, p.Client.FullName })
+                .Select(g => new RecentBuyerDto
+                {
+                    Id = g.Key.ClientId,
+                    FullName = g.Key.FullName,
+                    LastPurchaseDate = g.Max(p => p.Date)
+                })
+                .OrderByDescending(x => x.LastPurchaseDate)
+                .ToListAsync();
+
+            return recentBuyers;
+        }
+
     }
 }

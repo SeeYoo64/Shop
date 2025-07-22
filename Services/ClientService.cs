@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shop.Dtos.Clients;
 using Shop.Repositories;
 
@@ -26,5 +27,13 @@ namespace Shop.Services
                 })
                 .ToList();
         }
+
+        public async Task<List<RecentBuyerDto>> GetRecentBuyersAsync(int days)
+        {
+            return await _repository.GetRecentBuyersAsync(days);
+        }
+
+
+
     }
 }
